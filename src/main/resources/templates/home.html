@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>ToDo Manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link type="text/css" rel="stylesheet" href="../static/css/home.css" th:href="@{/css/home.css}">
+
+</head>
+<body>
+
+    <div class="title-div">
+        <h1 class="main-title">Welcome to ToDo Manager</h1>
+
+        <h3>ToDo Manager is a website that allow you to manage easily your todos. It is developped in Java with Srping.</h3>
+    </div>
+
+    <div style="position: fixed; top: 10px; right: 10px;">
+        <a href="/logout" class="button-logout">Logout</a>
+    </div>
+
+
+    <div class="key-div-container">
+        <br><br>
+        <div class="key-div-data">
+            <div class="dot-div" style="background-color: lightblue">
+                <h2 th:text="${allTasks}"></h2>
+            </div>
+            <h2>Total number of tasks </h2>
+        </div>
+
+        <div class="key-div-data">
+            <div class="dot-div" style="background-color: lightsalmon">
+                <h2 th:text="${progressTasks}"></h2>
+            </div>
+            <h2>Total number of tasks in progress </h2>
+        </div>
+
+        <div class="key-div-data">
+            <div class="dot-div" style="background-color: lightgreen">
+                <h2 th:text="${finishedTasks}"></h2>
+            </div>
+            <h2>Total number of completed tasks </h2>
+        </div>
+    </div>
+
+    <div class="button-div" sec:authorize="isAuthenticated()">
+        <h2 th:text="'Hi ' + ${username.username} + ' !'"></h2>
+        <div class="user-action">
+            <a href="/tasks" class="button">Tasks</a>&nbsp;
+            <a href="/schedule" class="button">Schedule</a>&nbsp;
+            <a href="/categories" class="button">Categories</a>
+        </div>
+
+        <br><br>
+
+    </div>
+
+    <div class="button-div" sec:authorize="isAnonymous()">
+        <h2>Hi !</h2>
+        <div class="user-action">
+            <a href="/login" class="button">Login</a>
+            <a href="/register" class="button">Register</a>
+        </div>
+    </div>
+
+</body>
+</html>

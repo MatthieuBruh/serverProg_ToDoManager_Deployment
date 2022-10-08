@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks Manager</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link type="text/css" rel="stylesheet" href="/css/tasksList.css" th:href="@{/css/tasksList.css}" />
+</head>
+<body>
+
+    <div style="position: fixed; top: 10px; left: 10px;">
+        <a class="btn btn-info" th:href="@{/tasks}" >Tasks list</a>
+        &nbsp;
+        <a class="btn btn-info" th:href="@{/schedule}">Schedule</a>
+    </div>
+
+    <div class="title-div">
+        <h1 class="main-title">Your categories, <span th:text="${username}"></span></h1>
+    </div>
+
+    <div style="position: fixed; top: 10px; right: 10px;">
+        <a class="btn btn-success" th:href="@{/categories/add}">Add a new Category</a>
+    </div>
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th></th>
+        </tr>
+        <tr th:each = "category : ${categories}">
+            <td th:text="${category.title}"></td>
+            <td th:text="${category.description}"></td>
+            <td><a class="btn btn-danger" th:href="@{/categories/delete/{title}(title=${category.title})}">Delete</a></td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+.title-div {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 20%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: linear-gradient(to bottom, gray, lightgray);
+}
+
+.main-title {
+    text-align: center;
+}

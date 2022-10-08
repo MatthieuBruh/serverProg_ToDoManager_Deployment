@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>ToDo Manager - Schedule</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/task.css" th:href="@{/css/task.css}" />
+
+</head>
+<body>
+
+    <form style="background-color: lightblue; width: 100%; justify-content: center; align-content: center;"
+          th:object="${task}" th:action="@{save}" action="#" method="post">
+
+        <div style="position: fixed; top: 10px; left: 10px;">
+            <a class="btn btn-info" th:href="@{/tasks}" >Tasks list</a>
+            &nbsp;
+            <a class="btn btn-info" th:href="@{/schedule}">Schedule</a>
+            &nbsp;
+            <a class="btn btn-info" th:href="@{/categories}">Categories</a>
+        </div>
+
+        <div class="title-div">
+            <input class="title" type="hidden" id="taskId" th:field="*{id}" readonly >
+            <input class="title" type="text" id="taskName" th:field="*{title}" readonly >
+            <br>
+            <input class="description" type="text" id="taskDescription" th:field="*{description}">
+            <br>
+            <a class="btn btn-danger" th:href="@{/tasks/delete/{id}(id=*{id})}">Delete task</a>
+        </div>
+
+
+        <div>
+            <table class="table table-striped" style="width: 75%; position: relative; left: 12.5%">
+                <tr>
+                    <th style="text-align: center;">Due date</th>
+                    <th style="text-align: center;">Status</th>
+                    <th style="text-align: center;">Priority</th>
+                    <th style="text-align: center;">Category</th>
+                    <th style="text-align: center;">Owner</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <input type="text" id="taskDueDate" th:field="*{dueDate}">
+                    </td>
+                    <td style="text-align: center;">
+                        <select th:field="*{status}">
+                            <option th:each="status : ${T(fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus).values()}"
+                                    th:value="${status}"
+                                    th:text="${status}">
+                            </option>
+                        </select>
+
+                    </td>
+                    <td style="text-align: center;">
+                        <select th:field="*{priority}">
+                            <option th:each="priority : ${T(fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskPriority).values()}"
+                                    th:value="${priority}"
+                                    th:text="${priority}">
+                            </option>
+                        </select>
+                    </td>
+                    <td style="text-align: center;">
+                        <select th:field="*{category.id}">
+                            <option th:value="0" th:text="--"></option>
+                            <option th:each="category : ${categories}"
+                                    th:value="${category.id}"
+                                    th:text="${category.title}">
+                            </option>
+                        </select>
+                    </td>
+                    <td style="text-align: center;">
+                        <input class="owner-details" th:field="*{owner}">
+                    </td>
+                </tr>
+            </table>
+
+            <div style="align-content: center; text-align: center;">
+                <hr>
+                <div>
+                    <h3>Add a participant</h3>
+                    <select th:field="*{participants}">
+                        <option value=""> -- </option>
+                        <option th:each="person : ${persons}"
+                                th:value="${person.username}"
+                                th:text="${person.firstName} + ' ' + ${person.lastName}">
+                        </option>
+                    </select>
+                </div>
+                <hr>
+                <div>
+                    <h3>Participants list</h3>
+                    <div th:each="person : *{participants}">
+                        <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <input type="submit" value="Save" class="btn btn-primary"
+               style="position: fixed; right: 10px; top: 10px;">
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>ToDo Manager - Schedule</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/home.css" th:href="@{/css/home.css}" />
+
+</head>
+<body>
+
+    <div style="position: fixed; top: 10px; left: 10px;">
+        <a class="btn btn-info" th:href="@{/tasks}" >Tasks list</a>
+        &nbsp;
+        <a class="btn btn-info" th:href="@{/categories}">Categories</a>
+    </div>
+
+    <div class="title-div">
+        <h1 class="main-title" th:text="'Your schedule, ' + ${username} + ' !'"></h1>
+        <br>
+        <div style="display: flex; flex-direction: row; align-content: center; justify-content: space-between; width: 30%;">
+            <p style="color: red">NOT STARTED</p>
+            <p style="color: blue">IN PROGRESS</p>
+            <p style="color: green">DONE</p>
+        </div>
+    </div>
+
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th th:each="date: ${dates}" th:text="${date}"></th>
+            </tr>
+            <tr>
+                <td th:each="date: ${dates}">
+                    <div th:each="task: ${dateAndTask.get(date)}">
+                        <a th:class="${task}" th:href="@{/tasks/{id}(id=${task.id})}" style="text-decoration: none;">
+                            <h3 th:text="${task.title}"
+                                th:style="${task.status.displayValue == 'DONE' ? 'color: green;' :
+                                    task.status.displayValue == 'IN_PROGRESS' ? 'color: blue;' : 'color: red;'}"
+                                th:styleappend="${'text-align: center;'}">
+                            </h3>
+                            <p th:text="${task.description}" style="color: black; text-align: center"></p>
+                            <p th:text="'Priority: ' + ${task.priority}" style="color: black; text-align: center"></p>
+                            <hr>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

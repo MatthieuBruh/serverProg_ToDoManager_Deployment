@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks Manager</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link type="text/css" rel="stylesheet" href="/css/tasksList.css" th:href="@{/css/tasksList.css}" />
+</head>
+<body>
+
+    <div style="position: fixed; top: 10px; left: 10px;">
+        <a class="btn btn-info" th:href="@{/schedule}">Schedule</a>
+        &nbsp;
+        <a class="btn btn-info" th:href="@{/categories}">Categories</a>
+    </div>
+
+    <div class="title-div">
+        <h1 class="main-title">Your tasks, <span th:text="${username}"></span></h1>
+    </div>
+
+    <div style="position: fixed; top: 10px; right: 10px;">
+        <a class="btn btn-success" th:href="@{/tasks/add}">Add a new Task</a>
+        <br><br>
+        <a class="btn btn-success" th:href="@{/categories/add}">Add a new Category</a>
+    </div>
+
+
+    <table class="table table-striped">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due date</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+        <tr th:each = "task : ${tasks}">
+            <td th:text="${task.title}"></td>
+            <td th:text="${task.description}"></td>
+            <td th:text="${task.dueDate}"></td>
+            <td><span th:text="${task.status}"></span></td>
+            <td><span th:text="${task.priority}"></span></td>
+            <td th:if="${task.category} != null" th:text="${task.category.title}"></td>
+            <td th:if="${task.category} == null"></td>
+            <td><a class="btn btn-warning" th:href="@{/tasks/{id}(id=${task.id})}">Edit</a></td>
+        </tr>
+    </table>
+
+</body>
+</html>

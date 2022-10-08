@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks Manager</title>
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/home.css" th:href="@{/css/home.css}" />
+</head>
+<body>
+
+<div class="title-div">
+    <h1 class="main-title" th:text="'Create a new category'"></h1>
+</div>
+
+    <form style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;"
+          th:object="${category}" th:action="@{/categories/save}" action="#" method="post">
+
+        <label for="CategoryTitle">Title</label>
+        <input type="text" id="CategoryTitle" th:field="*{title}" required/>
+        <br><br>
+
+        <label for="CategoryDescription">Description</label>
+        <input type="text" id="CategoryDescription" th:field="*{description}"/>
+        <br><br>
+
+        <button type="submit">Save</button>
+    </form>
+
+</body>
+</html>
