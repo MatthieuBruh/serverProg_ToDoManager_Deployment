@@ -1,11 +1,13 @@
 package fi.haagahelia.serverprog.todomanager.web;
 
 
+import fi.haagahelia.serverprog.todomanager.domain.Model.EmailMessage;
 import fi.haagahelia.serverprog.todomanager.domain.Model.person.Person;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.SortByDueDateAndPriority;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.Task;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.CategoryRepository;
+import fi.haagahelia.serverprog.todomanager.domain.Repository.EmailService;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.PersonRepository;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,9 @@ public class TaskController {
     private PersonRepository prepository;
     @Autowired
     private CategoryRepository crepository;
+
+    @Autowired
+    private EmailService emailService;
 
 
     private Person getPerson(Principal user) {
@@ -132,6 +137,7 @@ public class TaskController {
             List<Person> persons = (List<Person>) prepository.findAll();
             persons.remove(task.getOwner());
             persons.removeAll(task.getParticipants());
+            model.addAttribute("person", new Person());
             model.addAttribute("persons", persons);
             model.addAttribute("username", getPerson(request.getUserPrincipal()).getUsername());
             return "tasks/task";
@@ -158,12 +164,25 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+    @RequestMapping(value ="/tasks/save/addParticipant/{id}", method = RequestMethod.POST)
+    public String addParticipant(@PathVariable(name = "id") String id, Person person) {
+        try {
+            long taskId = Long.parseLong(id);
+            Task task = trepository.findById(taskId);
+            Person personFinded = prepository.findByUsername(person.getUsername());
+            task.addParticipant(personFinded);
+            trepository.save(task);
+        }catch (NumberFormatException e) {
+            return "redirect:../tasks/tasksList";
+        }
+        return "redirect:/tasks/" + id;
+    }
+
     @RequestMapping(value = "/tasks/add", method = RequestMethod.GET)
     public String addTask(HttpServletRequest request, Model model) {
         model.addAttribute("task", new Task());
         Person person = getPerson(request.getUserPrincipal());
         model.addAttribute("categories", crepository.findCategoryByCreatorUsername(person.getUsername()));
-
         return "tasks/addTask";
     }
 
@@ -183,7 +202,30 @@ public class TaskController {
                 return "redirect:/tasks";
             }
             trepository.deleteById(taskId);
-            return "redirect:../tasks/tasksList";
+            return "redirect:/tasks/tasksList";
+        } catch (NumberFormatException e) {
+            return "redirect:/tasks/tasksList";
+        }
+    }
+
+    @RequestMapping(value = "/tasks/{id}/notify", method = RequestMethod.GET)
+    public String notifyParticipants(@PathVariable("id") String id) {
+        try {
+            long taskId = Long.parseLong(id);
+            if (trepository.findById(taskId) == null) {
+                return "redirect:/tasks";
+            }
+            Task task = trepository.findById(taskId);
+            List<Person> participants = task.getParticipants();
+            for (Person p : participants) {
+                EmailMessage em = new EmailMessage();
+                em.setRecipient(p.getEmail());
+                em.setSubject("Informations about the shared task" + task.getTitle());
+                em.setBody("Don't forget to complete the task: " + task.getTitle()
+                        + "\n" + task.getDescription() + ". \nThe due date is: " + task.getDueDate());
+                emailService.sendSimpleMail(em);
+            }
+            return "redirect:/tasks/" + id;
         } catch (NumberFormatException e) {
             return "redirect:../tasks/tasksList";
         }

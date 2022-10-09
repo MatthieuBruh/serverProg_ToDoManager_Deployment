@@ -8,13 +8,16 @@ import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.CategoryRepository;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.PersonRepository;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.TaskRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Properties;
 
 @SpringBootApplication
 public class ToDoManagerApplication {
@@ -30,11 +33,11 @@ public class ToDoManagerApplication {
 					"Admiral", new BCryptPasswordEncoder().encode("admin"), "ADMIN");
 			pRepository.save(admin);
 
-			Person userTest = new Person("testUser", "test@todo.com", "Userr", "Tester",
+			Person userTest = new Person("testUser", "todo@ik.me", "Userr", "Tester",
 					new BCryptPasswordEncoder().encode("user"), "ADMIN");
 			pRepository.save(userTest);
 
-			Person userTest2 = new Person("testUser2", "test2@todo.com", "Userr2", "Tester2",
+			Person userTest2 = new Person("testUser2", "todo@gmail.com", "Userr2", "Tester2",
 					new BCryptPasswordEncoder().encode("user"), "USER");
 			pRepository.save(userTest2);
 
@@ -80,6 +83,8 @@ public class ToDoManagerApplication {
 			tRepository.save(task10);
 
 			Task task11 = new Task("Test task 12", "This is the test task 12", TaskStatus.IN_PROGRESS, TaskPriority.HIGH, LocalDate.now().plusDays(0), testCat, admin);
+			task11.addParticipant(userTest);
+			task11.addParticipant(userTest2);
 			tRepository.save(task11);
 
 			Task task12 = new Task("Test task 13", "This is the test task 13", TaskStatus.IN_PROGRESS, TaskPriority.MEDIUM, LocalDate.now().plusDays(0), testCat, admin);
@@ -88,4 +93,29 @@ public class ToDoManagerApplication {
 		};
 	}
 
+	@Value("${spring.mail.host}") String host;
+	@Value("${spring.mail.port}") int port;
+	@Value("${spring.mail.username}") String email;
+	@Value("${spring.mail.password}") String password;
+	@Value("${spring.mail.properties.mail.smtp.auth}") String auth;
+	@Value("${spring.mail.properties.mail.smtp.starttls.enable}") String starttls;
+
+
+	@Bean
+	public JavaMailSenderImpl mailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost(host);
+		mailSender.setPort(port);
+
+		mailSender.setUsername(email);
+		mailSender.setPassword(password);
+
+		Properties props = mailSender.getJavaMailProperties();
+		props.put("mail.transport.protocol", "smtp");
+		props.put("mail.smtp.auth", auth);
+		props.put("mail.smtp.starttls.enable", starttls);
+		props.put("mail.debug", "false");
+
+		return mailSender;
+	}
 }

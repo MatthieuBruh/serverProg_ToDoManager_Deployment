@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/task.css" th:href="@{/css/task.css}" />
 
 </head>
-<body>
+<body style="background-color: lightblue; width: 100%;">
 
     <form style="background-color: lightblue; width: 100%; justify-content: center; align-content: center;"
           th:object="${task}" th:action="@{save}" action="#" method="post">
@@ -75,32 +75,51 @@
                 </tr>
             </table>
 
-            <div style="align-content: center; text-align: center;">
-                <hr>
-                <div>
-                    <h3>Add a participant</h3>
-                    <select th:field="*{participants}">
-                        <option value=""> -- </option>
-                        <option th:each="person : ${persons}"
-                                th:value="${person.username}"
-                                th:text="${person.firstName} + ' ' + ${person.lastName}">
-                        </option>
-                    </select>
-                </div>
-                <hr>
-                <div>
-                    <h3>Participants list</h3>
-                    <div th:each="person : *{participants}">
-                        <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
 
         <input type="submit" value="Save" class="btn btn-primary"
                style="position: fixed; right: 10px; top: 10px;">
+    </form>
+
+    <div style="align-content: center; text-align: center;">
+        <hr>
+        <div>
+            <h3>Participants list</h3>
+            <a class="btn btn-info" th:href="@{/tasks/{id}/notify(id=${task.id})}">Notify all participants</a>
+            <div th:each="person : ${task.participants}">
+                <span th:text="${person.firstName} + ' ' + ${person.lastName}"></span>
+            </div>
+        </div>
+    </div>
+
+    <form style="background-color: lightblue; width: 100%; justify-content: center; align-content: center;"
+          th:object="${person}" th:action="@{save/addParticipant/{id}(id=${task.id})}" action="#" method="post">
+
+        <div style="align-content: center; text-align: center;">
+            <div>
+                <hr>
+                <h3>Add a participant</h3>
+                <select th:field="*{username}">
+                    <option value=""> -- </option>
+                    <option th:each="person : ${persons}"
+                            th:value="${person.username}"
+                            th:text="${person.firstName} + ' ' + ${person.lastName}">
+                    </option>
+                </select>
+
+                <input type="text" th:field="*{email}" readonly hidden>
+                <input type="text" th:field="*{firstName}" readonly hidden>
+                <input type="text" th:field="*{lastName}" readonly hidden>
+                <input type="text" th:field="*{password}" readonly hidden>
+                <input type="text" th:field="*{role}" readonly hidden>
+
+            </div>
+            <br>
+            <input type="submit" value="Share" class="btn btn-primary">
+        </div>
+
+
     </form>
 
 </body>
