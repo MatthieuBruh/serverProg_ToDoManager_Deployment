@@ -8,5 +8,4 @@ import java.util.List;
 public interface PersonRepository extends CrudRepository<Person, String> {
     Person findByUsername(String username);
     Person findByEmail(String email);
-    List<Person> findAllByRole(String role);
 }

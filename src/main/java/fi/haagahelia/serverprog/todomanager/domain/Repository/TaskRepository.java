@@ -10,7 +10,5 @@ import java.util.List;
 public interface TaskRepository extends CrudRepository<Task, Long> {
     Task findById(long id);
     List<Task> findByOwnerUsername(String username);
-    List<Task> findByParticipantsUsername(String username);
     List<Task> findByStatus(TaskStatus status);
-    List<Task> findByDueDate(LocalDate date);
 }
