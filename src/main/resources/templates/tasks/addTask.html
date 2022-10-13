@@ -13,7 +13,7 @@
     </div>
 
     <form style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;"
-          th:object="${task}" th:action="@{/tasks/save}" action="#" method="post">
+          th:object="${task}" th:action="@{/save}" action="#" method="post">
 
         <label for="TaskTitle">Title</label>
         <input type="text" id="TaskTitle" th:field="*{title}" required/>
