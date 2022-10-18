@@ -2,6 +2,7 @@ package fi.haagahelia.serverprog.todomanager.web;
 
 
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus;
+import fi.haagahelia.serverprog.todomanager.domain.Repository.PersonRepository;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,11 +18,8 @@ public class MainController {
     @Autowired
     private TaskRepository trepository;
 
-    /*@RequestMapping(value = {"", "/index", "/"})
-    public String redirectToHomePage() {
-        return "redirect:/home";
-    }*/
-
+    @Autowired
+    private PersonRepository prepository;
 
     /**
      * This methods is used to show the keys number of website. It is used on the home page.
@@ -34,7 +32,7 @@ public class MainController {
         model.addAttribute("allTasks", trepository.count());
         model.addAttribute("progressTasks", trepository.findByStatus(TaskStatus.IN_PROGRESS).size());
         model.addAttribute("finishedTasks", trepository.findByStatus(TaskStatus.DONE).size());
-        model.addAttribute("username", new TaskController().getPerson(request.getUserPrincipal()));
+        model.addAttribute("username", prepository.findByUsername(request.getUserPrincipal().getName()).getUsername());
         return "home";
     }
 }
