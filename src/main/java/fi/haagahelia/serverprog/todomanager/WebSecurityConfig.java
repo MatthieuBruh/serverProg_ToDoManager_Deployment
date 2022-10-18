@@ -19,36 +19,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private PersonDetailServiceImpl userDetailsService;
 
-    /*
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-        .ignoring()
-        .antMatchers("/**");
-    }
-
-    //OR - Use any one of these two methods
-
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/")
-                .permitAll();
-    }*/
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
         .authorizeRequests().antMatchers("/css/**").permitAll()
         .and()
-        .authorizeRequests().antMatchers("/register", "/saveuser", "/home").permitAll()
+        .authorizeRequests().antMatchers("/register", "/saveuser", "/home", "/login").permitAll()
         .and()
         .authorizeRequests().anyRequest().authenticated()
         .and()
         .formLogin()
-        .defaultSuccessUrl("/home", true)
+        .defaultSuccessUrl("/login", true)
         .permitAll()
         .and()
         .logout()
