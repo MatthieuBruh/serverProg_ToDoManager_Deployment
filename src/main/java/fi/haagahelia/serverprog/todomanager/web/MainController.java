@@ -27,7 +27,7 @@ public class MainController {
      * @param model is the model that is used.
      * @return the home page.
      */
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public String getHomePage(HttpServletRequest request, Model model) {
         model.addAttribute("allTasks", trepository.count());
         model.addAttribute("progressTasks", trepository.findByStatus(TaskStatus.IN_PROGRESS).size());
