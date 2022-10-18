@@ -24,12 +24,12 @@ public class PersonController {
      * Method to allow user to connect to their account
      * @return login
      */
-    @RequestMapping(value="/login", method = RequestMethod.POST)
+    @RequestMapping(value="/signin", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
 
-    @RequestMapping(value="/logout", method = RequestMethod.POST)
+    @RequestMapping(value="/signout", method = RequestMethod.GET)
     public String logout() {
         return "redirect:login";
     }
