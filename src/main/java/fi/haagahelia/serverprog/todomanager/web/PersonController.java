@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -24,13 +25,15 @@ public class PersonController {
     // Login function with logout redirection
     @RequestMapping(value = "/login")
     public String logout(@RequestParam(value = "error", required = false) String error,
-                         @RequestParam(value = "logout", required = false) String logout,
+                         @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request,
                          Model model) {
         String errorMess = null;
         if (error != null) {
             errorMess = "Username or Password is incorrect !!";
         }
         if (logout != null) {
+            // Logout the user
+            request.getSession().invalidate();
             errorMess = "You have been successfully logged out !!";
         }
         model.addAttribute("errorMess", errorMess);
