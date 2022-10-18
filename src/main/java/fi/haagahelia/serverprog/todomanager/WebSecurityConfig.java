@@ -24,17 +24,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
         .authorizeRequests().antMatchers("/css/**").permitAll()
-        .and()
-        .authorizeRequests().antMatchers("/register", "/saveuser", "/home").permitAll()
-        .and()
-        .authorizeRequests().anyRequest().authenticated()
-        .and()
+            .and()
+            .authorizeRequests().antMatchers("/register", "/saveuser", "/home").permitAll()
+            .and()
+            .authorizeRequests().anyRequest().authenticated()
+            .and()
         .formLogin()
-        .defaultSuccessUrl("/home", true)
-        .permitAll()
-        .and()
+            .loginPage("/login")
+            .defaultSuccessUrl("/home", true)
+            .permitAll()
+            .and()
         .logout()
-        .permitAll();
+            .permitAll();
     }
 
     @Autowired

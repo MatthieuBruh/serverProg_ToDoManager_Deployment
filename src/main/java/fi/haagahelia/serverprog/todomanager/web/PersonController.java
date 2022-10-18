@@ -20,6 +20,11 @@ public class PersonController {
     @Autowired
     private PersonRepository pRepository;
 
+    @RequestMapping(value="/login")
+    public String login() {
+        return "login";
+    }
+
     /**
      * Method to allow user to create an account
      * @param model This is the thyemleaf model
