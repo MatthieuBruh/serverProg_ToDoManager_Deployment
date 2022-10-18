@@ -35,7 +35,6 @@ public class MainController {
         if (request.getUserPrincipal() != null) {
             model.addAttribute("user", prepository.findByUsername(request.getUserPrincipal().getName()));
         }
-        // model.addAttribute("user", prepository.findByUsername(request.getUserPrincipal().getName()));
         return "home";
     }
 }
