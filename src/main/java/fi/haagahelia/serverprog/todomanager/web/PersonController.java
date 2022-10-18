@@ -20,26 +20,6 @@ public class PersonController {
     @Autowired
     private PersonRepository pRepository;
 
-    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
-
-
-    /**
-     * Method to allow user to connect to their account
-     * @return login
-     */
-    /*@RequestMapping(value="/signin", method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
-
-    @RequestMapping(value="/signout", method = RequestMethod.GET)
-    public String logout() {
-        return "redirect:login";
-    }*/
-
     /**
      * Method to allow user to create an account
      * @param model This is the thyemleaf model
