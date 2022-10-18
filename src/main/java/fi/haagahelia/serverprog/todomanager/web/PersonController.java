@@ -20,6 +20,11 @@ public class PersonController {
     @Autowired
     private PersonRepository pRepository;
 
+    @RequestMapping(value = "/loginPage", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
+
     /**
      * Method to allow user to connect to their account
      * @return login
