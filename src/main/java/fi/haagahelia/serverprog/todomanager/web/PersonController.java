@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -20,8 +21,19 @@ public class PersonController {
     @Autowired
     private PersonRepository pRepository;
 
-    @RequestMapping(value="/login")
-    public String login() {
+    // Login function with logout redirection
+    @RequestMapping(value = "/login")
+    public String logout(@RequestParam(value = "error", required = false) String error,
+                         @RequestParam(value = "logout", required = false) String logout,
+                         Model model) {
+        String errorMess = null;
+        if (error != null) {
+            errorMess = "Username or Password is incorrect !!";
+        }
+        if (logout != null) {
+            errorMess = "You have been successfully logged out !!";
+        }
+        model.addAttribute("errorMess", errorMess);
         return "login";
     }
 
