@@ -2,6 +2,7 @@ package fi.haagahelia.serverprog.todomanager.domain.Model.tasks;
 
 import fi.haagahelia.serverprog.todomanager.domain.Model.category.Category;
 import fi.haagahelia.serverprog.todomanager.domain.Model.person.Person;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,6 +25,7 @@ public class Task implements Comparable<Task> {
     private TaskStatus status;
     @Column(nullable = false)
     private TaskPriority priority;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate dueDate;
 
     @ManyToOne
