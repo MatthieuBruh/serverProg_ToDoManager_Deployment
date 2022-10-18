@@ -20,8 +20,13 @@ public class PersonController {
     @Autowired
     private PersonRepository pRepository;
 
+    @RequestMapping(value="/login")
+    public String login() {
+        return "login";
+    }
+
     @RequestMapping(value = "/register")
-    public String addStudent(Model model){
+    public String addStudent(Model model) {
         model.addAttribute("signupform", new SignUpForm());
         return "signup";
     }
