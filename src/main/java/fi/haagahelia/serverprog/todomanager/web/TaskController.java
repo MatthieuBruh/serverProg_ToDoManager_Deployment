@@ -5,7 +5,6 @@ import fi.haagahelia.serverprog.todomanager.domain.Model.EmailMessage;
 import fi.haagahelia.serverprog.todomanager.domain.Model.person.Person;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.SortByDueDateAndPriority;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.Task;
-import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.CategoryRepository;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.EmailService;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.PersonRepository;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.websocket.server.PathParam;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,13 +39,24 @@ public class TaskController {
     private EmailService emailService;
 
 
-    private Person getPerson(Principal user) {
+    /**
+     * This method is used to get the username of an user.
+     * @param user is the user that is logged in.
+     * @return the username of the user.
+     */
+    public Person getPerson(Principal user) {
         if (user == null) {
             return null;
         }
         return prepository.findByUsername(user.getName());
     }
 
+    /**
+     * This method is used to extract all the task that involves the user.
+     * @param tasks is the list of tasks that is extracted.
+     * @param username is the username of the person.
+     * @return the list of tasks.
+     */
     private List<Task> extractPersonTasks(List<Task> tasks, Principal username) {
         List<Task> tasksExtracted = new ArrayList<>();
         Person person = getPerson(username);
@@ -61,15 +70,6 @@ public class TaskController {
             }
         }
         return tasksExtracted;
-    }
-
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    private String getHomePage(HttpServletRequest request, Model model) {
-        model.addAttribute("allTasks", trepository.count());
-        model.addAttribute("progressTasks", trepository.findByStatus(TaskStatus.IN_PROGRESS).size());
-        model.addAttribute("finishedTasks", trepository.findByStatus(TaskStatus.DONE).size());
-        model.addAttribute("username", getPerson(request.getUserPrincipal()));
-        return "home";
     }
 
     /**
@@ -114,6 +114,12 @@ public class TaskController {
         return "tasks/schedule";
     }
 
+    /**
+     * This method is used to display the tasks of a user.
+     * @param request HttpServletRequest to get user's information
+     * @param model The model to add data for thymeleaf
+     * @return the tasks page
+     */
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     private String getTasksPage(HttpServletRequest request, Model model) {
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
@@ -123,6 +129,13 @@ public class TaskController {
         return "tasks/tasksList";
     }
 
+    /**
+     * This method is used to display the details of a task.
+     * @param id is the id of the task.
+     * @param request is the request that is made.
+     * @param model is the model that is used.
+     * @return the task details page.
+     */
     @RequestMapping(value = "/tasks/{id}", method = RequestMethod.GET)
     private String getTaskDetailsPage(@PathVariable("id") String id, HttpServletRequest request, Model model) {
         try {
@@ -146,6 +159,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * This method is used to display the form to create or modify a task.
+     * @param request is the request that is made.
+     * @param task is the task that is created.
+     * @return the task creation page.
+     */
     @RequestMapping(value = "/tasks/save", method = RequestMethod.POST)
     public String saveTask(HttpServletRequest request, Task task) {
         Task taskSource = trepository.findById(task.getId());
@@ -164,6 +183,12 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+    /**
+     * This methods is used to add a new participants to a task.
+     * @param id is the id of the task.
+     * @param person is the person that is added.
+     * @return the task details page.
+     */
     @RequestMapping(value ="/tasks/save/addParticipant/{id}", method = RequestMethod.POST)
     public String addParticipant(@PathVariable(name = "id") String id, Person person) {
         try {
@@ -178,6 +203,12 @@ public class TaskController {
         return "redirect:/tasks/" + id;
     }
 
+    /**
+     * This method is used to create a new task. It is used when the user click on the button "create a new task".
+     * @param request is the request that is made.
+     * @param model is the model that is used.
+     * @return the task creation page.
+     */
     @RequestMapping(value = "/tasks/add", method = RequestMethod.GET)
     public String addTask(HttpServletRequest request, Model model) {
         model.addAttribute("task", new Task());
@@ -186,6 +217,12 @@ public class TaskController {
         return "tasks/addTask";
     }
 
+    /**
+     * This method is used to save the form of a new task.
+     * @param task is the task that is created.
+     * @param request is the request that is made.
+     * @return the task details page.
+     */
     @RequestMapping(value = "/tasks/addSave", method = RequestMethod.POST)
     public String addTaskSave(Task task, HttpServletRequest request) {
         Person person = getPerson(request.getUserPrincipal());
@@ -194,6 +231,11 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+    /**
+     * This method is used to delete a task by its id.
+     * @param id is the id of the task.
+     * @return the tasks page.
+     */
     @RequestMapping(value ="/tasks/delete/{id}", method = RequestMethod.GET)
     public String deleteTask(@PathVariable("id") String id) {
         try {
@@ -208,6 +250,12 @@ public class TaskController {
         }
     }
 
+    /**
+     * This method is used to notify all the participants of a task.
+     * We use the class EmailMessage to create the emails details and we send it with the class EmailService.
+     * @param id is the id of the task.
+     * @return the task details page.
+     */
     @RequestMapping(value = "/tasks/{id}/notify", method = RequestMethod.GET)
     public String notifyParticipants(@PathVariable("id") String id) {
         try {

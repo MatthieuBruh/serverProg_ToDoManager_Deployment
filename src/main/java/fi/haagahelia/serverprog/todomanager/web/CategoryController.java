@@ -28,6 +28,12 @@ public class CategoryController {
     @Autowired
     private TaskRepository trepository;
 
+    /**
+     * Get all the categories of a person
+     * @param request this is the http request
+     * @param model this is the thymeleaf model
+     * @return it returns the html file to be rendered
+     */
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
     public String getCategories(HttpServletRequest request, Model model) {
         Person person = prepository.findByUsername(request.getUserPrincipal().getName());
@@ -36,12 +42,24 @@ public class CategoryController {
         return "category/categories";
     }
 
+    /**
+     * This method can allow user to create a new category (this is the form model)
+     * @param model this is the thymeleaf model
+     * @return it returns the html file to be rendered
+     */
     @RequestMapping(value = "/categories/add", method = RequestMethod.GET)
     public String addCategory(Model model) {
         model.addAttribute("category", new Category());
         return "category/addCategory";
     }
 
+    /**
+     * This method can allow user to save a new category.
+     * It create a new category and save it to the database
+     * @param request this is the http request
+     * @param category this is the category object
+     * @return it returns the html file to be rendered
+     */
     @RequestMapping(value = "/categories/save", method = RequestMethod.POST)
     public String saveCategory(HttpServletRequest request, Category category) {
         Person person = prepository.findByUsername(request.getUserPrincipal().getName());
@@ -50,6 +68,12 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
+    /**
+     * This method can allow user to delete a category by the id and the username of the creator
+     * @param title this is the title of the category
+     * @param request this is the http request
+     * @return it returns the html file to be rendered
+     */
     @RequestMapping(value = "/categories/delete/{title}", method = RequestMethod.GET)
     public String deleteCategory(@PathVariable("title") String title, HttpServletRequest request) {
         String username = request.getUserPrincipal().getName();

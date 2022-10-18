@@ -43,7 +43,9 @@ public class Person {
 
 
     public Person() {
+        this.categories = new ArrayList<>();
         this.tasks = new ArrayList<>();
+        this.participate = new ArrayList<>();
     }
 
     public Person(String username, String email, String firstName, String lastName, String password, String role) {

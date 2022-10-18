@@ -13,11 +13,18 @@ import org.springframework.stereotype.Service;
 public class PersonDetailServiceImpl implements UserDetailsService {
     private final PersonRepository repository;
 
+
     @Autowired
     public PersonDetailServiceImpl(PersonRepository userRepository) {
         this.repository = userRepository;
     }
 
+    /**
+     * This method is used to load a user by username. It is used by Spring Security to authenticate a user.
+     * @param username the username identifying the user whose data is required.
+     * @return a fully populated user record (never null)
+     * @throws UsernameNotFoundException if the user could not be found or the user has no GrantedAuthority
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
     {

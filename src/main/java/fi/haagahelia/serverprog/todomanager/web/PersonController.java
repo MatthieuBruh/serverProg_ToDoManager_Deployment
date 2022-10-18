@@ -20,17 +20,34 @@ public class PersonController {
     @Autowired
     private PersonRepository pRepository;
 
+    /**
+     * Method to allow user to connect to their account
+     * @return login
+     */
     @RequestMapping(value="/login")
     public String login() {
         return "login";
     }
 
+    /**
+     * Method to allow user to create an account
+     * @param model This is the thyemleaf model
+     * @return The signup form
+     */
     @RequestMapping(value = "/register")
     public String addStudent(Model model) {
         model.addAttribute("signupform", new SignUpForm());
         return "signup";
     }
 
+    /**
+     * This method is used to save the user to the database
+     * It verify differents parameters to avoid that the user can create an account with a username or email that already exist.
+     * It also verify that the password and the password confirmation are the same.
+     * @param signUpForm This is the form that the user fill to create an account
+     * @param bindingResult This is the result of the verification
+     * @return The login page if the user is saved, the signup page if the user is not saved
+     */
     @RequestMapping(value = "/saveuser", method = RequestMethod.POST)
     private String save(@Valid @ModelAttribute("signupform") SignUpForm signUpForm, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) { // validation errors

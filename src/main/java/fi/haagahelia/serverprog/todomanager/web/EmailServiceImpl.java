@@ -16,6 +16,12 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${spring.mail.username}") private String sender;
 
+    /**
+     * This method is used to send an email to the user
+     * An email needs a sender, receiver, subject and a message.
+     * @param details This is a class that contains all the details of the mail to be sent
+     * @return This method returns a String to indicate if the email was sent successfully
+     */
     @Override
     public String sendSimpleMail(EmailMessage details) {
         try {

@@ -38,7 +38,8 @@
         <tr th:each = "task : ${tasks}">
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
-            <td th:text="${task.dueDate}"></td>
+            <td th:if="${task.dueDate} != null" th:text="${task.dueDate}"></td>
+            <td th:if="${task.dueDate} == null"> </td>
             <td><span th:text="${task.status}"></span></td>
             <td><span th:text="${task.priority}"></span></td>
             <td th:if="${task.category} != null" th:text="${task.category.title}"></td>
