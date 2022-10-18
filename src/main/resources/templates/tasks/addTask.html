@@ -10,9 +10,7 @@
 
     <div class="container">
 
-        <div class="title-div">
-            <h1 class="main-title" th:text="'Create a new task'"></h1>
-        </div>
+        <h1 class="main-title" th:text="'Create a new task'"></h1>
 
         <form style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;"
               th:object="${task}" th:action="@{save}" action="#" method="post">
