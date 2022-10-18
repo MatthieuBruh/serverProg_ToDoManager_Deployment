@@ -35,17 +35,6 @@ public class PersonController {
             errorMess = "Username or Password is incorrect !!";
         }
         if (logout != null) {
-            // Logout the user
-            /*HttpSession session= request.getSession(false);
-            SecurityContextHolder.clearContext();
-            session= request.getSession(false);
-            if(session != null) {
-                session.invalidate();
-            }
-            for(Cookie cookie : request.getCookies()) {
-                cookie.setMaxAge(0);
-            }*/
-
             errorMess = "You have been successfully logged out !!";
         }
         model.addAttribute("errorMess", errorMess);
