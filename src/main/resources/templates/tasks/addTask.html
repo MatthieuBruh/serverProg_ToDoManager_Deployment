@@ -8,55 +8,58 @@
 </head>
 <body>
 
-    <div class="title-div">
-        <h1 class="main-title" th:text="'Create a new task'"></h1>
+    <div class="container">
+
+        <div class="title-div">
+            <h1 class="main-title" th:text="'Create a new task'"></h1>
+        </div>
+
+        <form style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;"
+              th:object="${task}" th:action="@{save}" action="#" method="post">
+
+            <label for="TaskTitle" th:text="Title">
+            <input type="text" id="TaskTitle" th:field="*{title}" required/></label>
+            <br><br>
+
+            <label for="TaskDescription">Description</label>
+            <input type="text" id="TaskDescription" th:field="*{description}"/>
+            <br><br>
+
+            <label for="TaskDueDate">Due date</label>
+            <input type="text" id="TaskDueDate" th:field="*{dueDate}"/>
+            <br><br>
+
+            <label for="TaskStatus">Status</label>
+            <select id="TaskStatus" th:field="*{status}" required>
+                <option th:each="status : ${T(fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus).values()}"
+                        th:value="${status}"
+                        th:text="${status}">
+                </option>
+            </select>
+            <br><br>
+
+            <label for="TaskPriority">Priority</label>
+            <select id="TaskPriority" th:field="*{priority}" required>
+                <option th:each="priority : ${T(fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskPriority).values()}"
+                        th:value="${priority}"
+                        th:text="${priority}">
+                </option>
+            </select>
+            <br><br>
+
+            <label for="TaskCategory">Category</label>
+            <select id="TaskCategory" th:field="*{category.id}">
+                <option th:value="0" th:text="--"></option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.title}">
+                </option>
+            </select>
+            <br><br>
+
+            <button type="submit">Save</button>
+        </form>
     </div>
-
-    <form style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;"
-          th:object="${task}" th:action="@{save}" action="#" method="post">
-
-        <label for="TaskTitle">Title</label>
-        <input type="text" id="TaskTitle" th:field="*{title}" required/>
-        <br><br>
-
-        <label for="TaskDescription">Description</label>
-        <input type="text" id="TaskDescription" th:field="*{description}"/>
-        <br><br>
-
-        <label for="TaskDueDate">Due date</label>
-        <input type="text" id="TaskDueDate" th:field="*{dueDate}"/>
-        <br><br>
-
-        <label for="TaskStatus">Status</label>
-        <select id="TaskStatus" th:field="*{status}" required>
-            <option th:each="status : ${T(fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus).values()}"
-                    th:value="${status}"
-                    th:text="${status}">
-            </option>
-        </select>
-        <br><br>
-
-        <label for="TaskPriority">Priority</label>
-        <select id="TaskPriority" th:field="*{priority}" required>
-            <option th:each="priority : ${T(fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskPriority).values()}"
-                    th:value="${priority}"
-                    th:text="${priority}">
-            </option>
-        </select>
-        <br><br>
-
-        <label for="TaskCategory">Category</label>
-        <select id="TaskCategory" th:field="*{category.id}">
-            <option th:value="0" th:text="--"></option>
-            <option th:each="category : ${categories}"
-                    th:value="${category.id}"
-                    th:text="${category.title}">
-            </option>
-        </select>
-        <br><br>
-
-        <button type="submit">Save</button>
-    </form>
 
 </body>
 </html>
