@@ -32,7 +32,10 @@ public class MainController {
         model.addAttribute("allTasks", trepository.count());
         model.addAttribute("progressTasks", trepository.findByStatus(TaskStatus.IN_PROGRESS).size());
         model.addAttribute("finishedTasks", trepository.findByStatus(TaskStatus.DONE).size());
-        model.addAttribute("user", prepository.findByUsername(request.getUserPrincipal().getName()));
+        if (request.getUserPrincipal() != null) {
+            model.addAttribute("user", prepository.findByUsername(request.getUserPrincipal().getName()));
+        }
+        // model.addAttribute("user", prepository.findByUsername(request.getUserPrincipal().getName()));
         return "home";
     }
 }
