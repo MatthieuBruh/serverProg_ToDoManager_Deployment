@@ -24,7 +24,7 @@ public class PersonController {
      * Method to allow user to connect to their account
      * @return login
      */
-    @RequestMapping(value="/signin", method = RequestMethod.GET)
+    /*@RequestMapping(value="/signin", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
@@ -32,7 +32,7 @@ public class PersonController {
     @RequestMapping(value="/signout", method = RequestMethod.GET)
     public String logout() {
         return "redirect:login";
-    }
+    }*/
 
     /**
      * Method to allow user to create an account
