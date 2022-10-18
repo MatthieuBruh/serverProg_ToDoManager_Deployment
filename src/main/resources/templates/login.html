@@ -5,50 +5,22 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
-</body>
-</html>
-
-<!-- <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Log in your profile</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link type="text/css" rel="stylesheet" th:href="@{css/bootstrap.min.css}" />
-</head>
-<body>
-<div class="container">
-    <h1>Sign-in</h1>
+    <h1>Sign in</h1>
     <div th:if="${param.error}">
         Invalid username and password.
     </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
     <form th:action="@{/login}" method="post">
-        <div>
-            <label> User Name : <input class="form-control" type="text" name="username"/> </label>
-        </div>
-
-        <div>
-            <label> Password: <input class="form-control" type="password" name="password"/></label></div>
-
-        <div>
-            <input type="submit" class="btn btn-success" value="Sign In"/>
-        </div>
+        <div><label> User Name : <input type="text" name="username" class="form-control"/> </label></div>
+        <div><label> Password: <input type="password" name="password" class="form-control"/> </label></div>
+        <div><input type="submit" value="Sign In" class="btn btn-success"/></div>
     </form>
 
     <div>
-        <br><br>
+        <h2>Create an account</h2>
         <a class="btn btn-info" href="/register">Sign up</a>
     </div>
-</div>
 </body>
-</html> -->
+</html>
