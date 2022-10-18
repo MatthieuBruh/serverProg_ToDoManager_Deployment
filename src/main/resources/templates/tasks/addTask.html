@@ -6,7 +6,7 @@
     <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" type="text/css" href="../../static/css/home.css" th:href="@{/css/home.css}" />
 </head>
-<body>
+<body style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;">
 
     <div class="container">
 
@@ -17,8 +17,8 @@
         <form style="background-color: lightgrey; width: 100%; justify-content: center; align-content: center;"
               th:object="${task}" th:action="@{save}" action="#" method="post">
 
-            <label for="TaskTitle">Title
-            <input type="text" id="TaskTitle" th:field="*{title}" required/></label>
+            <label for="TaskTitle">Title</label>
+            <input type="text" id="TaskTitle" th:field="*{title}" required/>
             <br><br>
 
             <label for="TaskDescription">Description</label>
@@ -49,7 +49,7 @@
 
             <label for="TaskCategory">Category</label>
             <select id="TaskCategory" th:field="*{category.id}">
-                <option th:value="0" th:text="--"></option>
+                <option th:value="null" th:text="--"></option>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"
                         th:text="${category.title}">
