@@ -37,6 +37,11 @@ public class PersonController {
         return "login";
     }
 
+    @RequestMapping(value = "/logout")
+    public String logout() {
+        return "redirect:/login?logout";
+    }
+
     /**
      * Method to allow user to create an account
      * @param model This is the thyemleaf model
