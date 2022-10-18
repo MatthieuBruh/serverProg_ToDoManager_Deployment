@@ -178,7 +178,11 @@ public class TaskController {
             Person owner = getPerson(request.getUserPrincipal());
             task.setOwner(owner);
             task.setParticipants(new ArrayList<>());
+            if (task.getCategory().getId() == 0) {
+                task.setCategory(null);
+            }
             System.out.println("Task date: " + task.getDueDate());
+            System.out.println("Task date length: " + task.getDueDate().toString().length());
         }
         trepository.save(task);
         return "redirect:/tasks";

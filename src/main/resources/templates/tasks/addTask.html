@@ -49,7 +49,7 @@
 
             <label for="TaskCategory">Category</label>
             <select id="TaskCategory" th:field="*{category.id}">
-                <option th:value="null" th:text="--"></option>
+                <option th:value="0" th:text="--"></option>
                 <option th:each="category : ${categories}"
                         th:value="${category.id}"
                         th:text="${category.title}">
