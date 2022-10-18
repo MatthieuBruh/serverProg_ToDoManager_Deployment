@@ -44,8 +44,8 @@
         </div>
     </div>
 
-    <div class="button-div" sec:authorize="isAuthenticated()">
-        <h2 th:text="'Hi ' + ${username.username} + ' !'"></h2>
+    <div class="button-div" th:if="${user} != null">
+        <h2 th:text="'Hi ' + ${user.username} + ' !'"></h2>
         <div class="user-action">
             <a href="/tasks" class="button">Tasks</a>&nbsp;
             <a href="/schedule" class="button">Schedule</a>&nbsp;
@@ -56,7 +56,7 @@
 
     </div>
 
-    <div class="button-div" sec:authorize="isAnonymous()">
+    <div class="button-div" th:if="${user} == null">
         <h2>Hi !</h2>
         <div class="user-action">
             <a href="/login" class="button">Login</a>
