@@ -24,22 +24,8 @@ public class PersonRepositoryTest {
 
     @Test
     public void findByUsernameTest() {
-        Person person = new Person("myAdmin", "myAdmin@haaga.fi", "My", "Admin",
-                new BCryptPasswordEncoder().encode("admin"), "USER");
-        pRepository.save(person);
-
-        Person personFinded = pRepository.findByUsername("myAdmin");
+        Person personFinded = pRepository.findByUsername("admin");
         assertThat(pRepository.findByUsername("admin")).isNotNull();
-        assertThat(personFinded.getUsername()).isEqualTo("myAdmin");
-        assertThat(personFinded.getEmail()).isEqualTo("myAdmin@haaga.fi");
-        assertThat(personFinded.getFirstName()).isEqualTo("My");
-        assertThat(personFinded.getLastName()).isEqualTo("Admin");
-        assertThat(personFinded.getRole()).isEqualTo("USER");
-    }
-
-    @Test
-    public void findByEmailTest() {
-        Person personFinded = pRepository.findByEmail("managertodos@gmail.com");
         assertThat(personFinded.getUsername()).isEqualTo("admin");
         assertThat(personFinded.getEmail()).isEqualTo("managertodos@gmail.com");
         assertThat(personFinded.getFirstName()).isEqualTo("Administrator");
@@ -48,11 +34,22 @@ public class PersonRepositoryTest {
     }
 
     @Test
+    public void findByEmailTest() {
+        Person personFinded = pRepository.findByEmail("test@gmail.com");
+        assertThat(personFinded.getUsername()).isEqualTo("poulet");
+        assertThat(personFinded.getEmail()).isEqualTo("test@gmail.com");
+        assertThat(personFinded.getFirstName()).isEqualTo("Paul");
+        assertThat(personFinded.getLastName()).isEqualTo("Mirabel");
+        assertThat(personFinded.getRole()).isEqualTo("USER");
+    }
+
+    @Test
     public void createPersonTest() {
         Person person = new Person("java", "java@todo.com", "Java", "Programmer",
                 new BCryptPasswordEncoder().encode("java"), "USER");
         pRepository.save(person);
         assertThat(pRepository.findByUsername("java")).isNotNull();
+        // pRepository.delete(person);
     }
 
     @Test

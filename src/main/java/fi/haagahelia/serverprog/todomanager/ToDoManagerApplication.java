@@ -29,7 +29,7 @@ public class ToDoManagerApplication {
 	@Bean
 	public CommandLineRunner demo(PersonRepository pRepository, CategoryRepository cRepository, TaskRepository tRepository) {
 		return args -> {
-			Person admin = new Person("admin", "managertodos@gmail.com", "Administrator",
+			/*Person admin = new Person("admin", "managertodos@gmail.com", "Administrator",
 					"Admiral", new BCryptPasswordEncoder().encode("admin"), "ADMIN");
 			pRepository.save(admin);
 
@@ -88,7 +88,7 @@ public class ToDoManagerApplication {
 			tRepository.save(task11);
 
 			Task task12 = new Task("Test task 13", "This is the test task 13", TaskStatus.IN_PROGRESS, TaskPriority.MEDIUM, LocalDate.now().plusDays(0), testCat, admin);
-			tRepository.save(task12);
+			tRepository.save(task12);*/
 		};
 	}
 

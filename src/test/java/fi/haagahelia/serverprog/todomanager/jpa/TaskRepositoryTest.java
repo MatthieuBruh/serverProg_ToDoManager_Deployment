@@ -57,12 +57,14 @@ public class TaskRepositoryTest {
         assertThat(task.getStatus()).isEqualTo(TaskStatus.DONE);
         assertThat(task.getPriority()).isEqualTo(TaskPriority.LOW);
         assertThat(task.getOwner().getUsername()).isEqualTo("admin");
+        // taskRepository.delete(task);
     }
 
     @Test
     public void deleteTaskTest() {
         Task task = new Task("Server Programming", "Creating programming project", TaskStatus.DONE,
                 TaskPriority.LOW, LocalDate.now(), null, pRepository.findByUsername("admin"));
+        taskRepository.save(task);
         taskRepository.delete(task);
         assertThat(taskRepository.findById(task.getId())).isNull();
     }
@@ -81,5 +83,6 @@ public class TaskRepositoryTest {
         assertThat(taskRepository.findById(task.getId()).getDescription()).isEqualTo("Creating programming project 2");
         assertThat(taskRepository.findById(task.getId()).getStatus()).isEqualTo(TaskStatus.IN_PROGRESS);
         assertThat(taskRepository.findById(task.getId()).getPriority()).isEqualTo(TaskPriority.HIGH);
+        // taskRepository.delete(task);
     }
 }

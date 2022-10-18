@@ -48,6 +48,7 @@ public class CategoryRepositoryTest {
         assertThat(category.getTitle()).isEqualTo("CategoryTest");
         assertThat(category.getDescription()).isEqualTo("This is category test");
         assertThat(category.getCreator().getUsername()).isEqualTo("admin");
+        cRepository.delete(category);
     }
 
     @Test
