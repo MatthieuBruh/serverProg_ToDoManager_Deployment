@@ -25,6 +25,7 @@ public class PersonController {
         return "login";
     }
 
+
     /**
      * Method to allow user to connect to their account
      * @return login
