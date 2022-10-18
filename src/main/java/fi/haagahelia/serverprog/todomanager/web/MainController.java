@@ -17,10 +17,10 @@ public class MainController {
     @Autowired
     private TaskRepository trepository;
 
-    @RequestMapping(value = {"", "/index", "/"})
+    /*@RequestMapping(value = {"", "/index", "/"})
     public String redirectToHomePage() {
         return "redirect:/home";
-    }
+    }*/
 
 
     /**
