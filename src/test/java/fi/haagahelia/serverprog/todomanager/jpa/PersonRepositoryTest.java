@@ -39,9 +39,9 @@ public class PersonRepositoryTest {
 
     @Test
     public void findByEmailTest() {
-        Person personFinded = pRepository.findByEmail("admin@todo.com");
+        Person personFinded = pRepository.findByEmail("managertodos@gmail.com");
         assertThat(personFinded.getUsername()).isEqualTo("admin");
-        assertThat(personFinded.getEmail()).isEqualTo("admin@todo.com");
+        assertThat(personFinded.getEmail()).isEqualTo("managertodos@gmail.com");
         assertThat(personFinded.getFirstName()).isEqualTo("Administrator");
         assertThat(personFinded.getLastName()).isEqualTo("Admiral");
         assertThat(personFinded.getRole()).isEqualTo("ADMIN");

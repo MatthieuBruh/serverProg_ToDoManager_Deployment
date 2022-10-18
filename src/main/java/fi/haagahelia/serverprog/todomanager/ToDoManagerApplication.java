@@ -29,15 +29,15 @@ public class ToDoManagerApplication {
 	@Bean
 	public CommandLineRunner demo(PersonRepository pRepository, CategoryRepository cRepository, TaskRepository tRepository) {
 		return args -> {
-			Person admin = new Person("admin", "admin@todo.com", "Administrator",
+			Person admin = new Person("admin", "managertodos@gmail.com", "Administrator",
 					"Admiral", new BCryptPasswordEncoder().encode("admin"), "ADMIN");
 			pRepository.save(admin);
 
-			Person userTest = new Person("testUser", "todo@ik.me", "Userr", "Tester",
-					new BCryptPasswordEncoder().encode("user"), "ADMIN");
+			Person userTest = new Person("poulet", "test@gmail.com", "Paul", "Mirabel",
+					new BCryptPasswordEncoder().encode("user"), "USER");
 			pRepository.save(userTest);
 
-			Person userTest2 = new Person("testUser2", "todo@gmail.com", "Userr2", "Tester2",
+			Person userTest2 = new Person("jck", "todo@gmail.com", "Jack", "Speach",
 					new BCryptPasswordEncoder().encode("user"), "USER");
 			pRepository.save(userTest2);
 
@@ -89,7 +89,6 @@ public class ToDoManagerApplication {
 
 			Task task12 = new Task("Test task 13", "This is the test task 13", TaskStatus.IN_PROGRESS, TaskPriority.MEDIUM, LocalDate.now().plusDays(0), testCat, admin);
 			tRepository.save(task12);
-
 		};
 	}
 
