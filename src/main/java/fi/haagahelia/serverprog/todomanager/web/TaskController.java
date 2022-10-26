@@ -127,7 +127,8 @@ public class TaskController {
 
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
         if (categoryFilter != null) {
-            tasks.removeIf(task -> !task.getCategory().equals(categoryFilter));
+            // System.out.println("Filtering by category: " + categoryFilter.getTitle());
+            tasks.removeIf(task -> !task.getCategory().getTitle().equals(categoryFilter.getTitle()));
         }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
