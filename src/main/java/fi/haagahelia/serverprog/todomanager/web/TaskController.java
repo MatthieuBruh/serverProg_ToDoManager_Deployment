@@ -134,9 +134,8 @@ public class TaskController {
      */
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     private String getTasksPage(@RequestParam(value = "category", required = false) String catName,
-                                @RequestParam(value = "status", required = false) TaskStatus status,
+                                @RequestParam(value = "status", required = false) String status,
                                 HttpServletRequest request, Model model) {
-        // Category categoryFilter = catName == null || catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
         Category categoryFilter = null;
         if (catName != null && !catName.equals("All")) {
             categoryFilter = crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
@@ -146,8 +145,9 @@ public class TaskController {
         if (categoryFilter != null) {
             tasks = getTasksByCategory(tasks, categoryFilter);
         }
-        if (status != null) {
-            tasks.removeIf(task -> !task.getStatus().equals(status));
+        if (status != null && !status.equals("All")) {
+            TaskStatus taskStatus = TaskStatus.valueOf(status);
+            tasks.removeIf(task -> !task.getStatus().equals(taskStatus));
         }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
