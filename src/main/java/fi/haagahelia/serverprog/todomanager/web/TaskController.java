@@ -137,7 +137,7 @@ public class TaskController {
                                 @RequestParam(value = "status", required = false) String status,
                                 HttpServletRequest request, Model model) {
         Category categoryFilter = null;
-        if (catName != null && !catName.equals("All")) {
+        if (catName != null && !catName.equalsIgnoreCase("All")) {
             categoryFilter = crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
         }
 
@@ -145,7 +145,7 @@ public class TaskController {
         if (categoryFilter != null) {
             tasks = getTasksByCategory(tasks, categoryFilter);
         }
-        if (status != null && !status.equals("All")) {
+        if (status != null && !status.equalsIgnoreCase("All")) {
             TaskStatus taskStatus = TaskStatus.valueOf(status);
             tasks.removeIf(task -> !task.getStatus().equals(taskStatus));
         }
