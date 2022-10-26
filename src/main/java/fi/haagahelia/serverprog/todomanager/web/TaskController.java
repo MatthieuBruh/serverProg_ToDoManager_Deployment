@@ -115,6 +115,16 @@ public class TaskController {
         return "tasks/schedule";
     }
 
+    private List<Task> getTasksByCategory(List<Task> tasks, Category category) {
+        List<Task> results = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getCategory().equals(category)) {
+                results.add(task);
+            }
+        }
+        return results;
+    }
+
     /**
      * This method is used to display the tasks of a user.
      * @param request HttpServletRequest to get user's information
@@ -126,16 +136,8 @@ public class TaskController {
         Category categoryFilter = catName == null || catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
 
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
-        System.out.println("Filtering by category: " + categoryFilter);
         if (categoryFilter != null) {
-            System.out.println("Filtering by category: " + categoryFilter.getTitle());
-            for (int i = tasks.size() - 1; i >= 0; i--) {
-                if (tasks.get(i).getCategory() != null) {
-                    if (!tasks.get(i).getCategory().equals(categoryFilter)) {
-                        tasks.remove(i);
-                    }
-                }
-            }
+            tasks = getTasksByCategory(tasks, categoryFilter);
         }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
