@@ -126,10 +126,10 @@ public class TaskController {
         Category categoryFilter = catName == null || catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
 
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
-        System.out.println("Filtering by category: " + categoryFilter.getTitle());
+        System.out.println("Filtering by category: " + categoryFilter);
         if (categoryFilter != null) {
             System.out.println("Filtering by category: " + categoryFilter.getTitle());
-            // tasks.removeIf(task -> !task.getCategory().getTitle().equals(categoryFilter.getTitle()));
+            tasks.removeIf(task -> !task.getCategory().getTitle().equals(categoryFilter.getTitle()));
         }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
