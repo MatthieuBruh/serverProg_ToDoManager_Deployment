@@ -129,7 +129,13 @@ public class TaskController {
         System.out.println("Filtering by category: " + categoryFilter);
         if (categoryFilter != null) {
             System.out.println("Filtering by category: " + categoryFilter.getTitle());
-            tasks.removeIf(task -> !task.getCategory().getTitle().equals(categoryFilter.getTitle()));
+            for (int i = tasks.size() - 1; i >= 0; i--) {
+                if (tasks.get(i).getCategory() != null) {
+                    if (!tasks.get(i).getCategory().equals(categoryFilter)) {
+                        tasks.remove(i);
+                    }
+                }
+            }
         }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
