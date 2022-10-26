@@ -118,9 +118,12 @@ public class TaskController {
     private List<Task> getTasksByCategory(List<Task> tasks, Category category) {
         List<Task> results = new ArrayList<>();
         for (Task task : tasks) {
-            if (task.getCategory().equals(category)) {
+            if (task.getCategory() != null && task.getCategory().equals(category)) {
                 results.add(task);
             }
+            /*if (task.getCategory().equals(category)) {
+                results.add(task);
+            }*/
         }
         return results;
     }
