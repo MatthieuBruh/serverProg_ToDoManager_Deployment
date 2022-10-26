@@ -123,7 +123,7 @@ public class TaskController {
      */
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
     private String getTasksPage(@RequestParam(value = "category", required = false) String catName, HttpServletRequest request, Model model) {
-        Category categoryFilter = catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
+        Category categoryFilter = catName == null || catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
 
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
         if (categoryFilter != null) {
@@ -132,6 +132,7 @@ public class TaskController {
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
         model.addAttribute("username", getPerson(request.getUserPrincipal()).getUsername());
+        model.addAttribute("categories", crepository.findCategoryByCreatorUsername(getPerson(request.getUserPrincipal()).getUsername()));
         return "tasks/tasksList";
     }
 
