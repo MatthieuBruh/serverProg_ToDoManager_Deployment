@@ -2,6 +2,7 @@ package fi.haagahelia.serverprog.todomanager.web;
 
 
 import fi.haagahelia.serverprog.todomanager.domain.Model.EmailMessage;
+import fi.haagahelia.serverprog.todomanager.domain.Model.category.Category;
 import fi.haagahelia.serverprog.todomanager.domain.Model.person.Person;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.SortByDueDateAndPriority;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.Task;
@@ -121,8 +122,13 @@ public class TaskController {
      * @return the tasks page
      */
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
-    private String getTasksPage(HttpServletRequest request, Model model) {
+    private String getTasksPage(@RequestParam(value = "category", required = false) String catName, HttpServletRequest request, Model model) {
+        Category categoryFilter = catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
+
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
+        if (categoryFilter != null) {
+            tasks.removeIf(task -> !task.getCategory().equals(categoryFilter));
+        }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
         model.addAttribute("username", getPerson(request.getUserPrincipal()).getUsername());
