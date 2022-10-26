@@ -6,6 +6,7 @@ import fi.haagahelia.serverprog.todomanager.domain.Model.category.Category;
 import fi.haagahelia.serverprog.todomanager.domain.Model.person.Person;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.SortByDueDateAndPriority;
 import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.Task;
+import fi.haagahelia.serverprog.todomanager.domain.Model.tasks.TaskStatus;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.CategoryRepository;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.EmailService;
 import fi.haagahelia.serverprog.todomanager.domain.Repository.PersonRepository;
@@ -121,9 +122,6 @@ public class TaskController {
             if (task.getCategory() != null && task.getCategory().equals(category)) {
                 results.add(task);
             }
-            /*if (task.getCategory().equals(category)) {
-                results.add(task);
-            }*/
         }
         return results;
     }
@@ -135,12 +133,21 @@ public class TaskController {
      * @return the tasks page
      */
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
-    private String getTasksPage(@RequestParam(value = "category", required = false) String catName, HttpServletRequest request, Model model) {
-        Category categoryFilter = catName == null || catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
+    private String getTasksPage(@RequestParam(value = "category", required = false) String catName,
+                                @RequestParam(value = "status", required = false) TaskStatus status,
+                                HttpServletRequest request, Model model) {
+        // Category categoryFilter = catName == null || catName.equals("All") ? null : crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
+        Category categoryFilter = null;
+        if (catName != null && !catName.equals("All")) {
+            categoryFilter = crepository.findCategoryByTitleAndCreatorUsername(catName, getPerson(request.getUserPrincipal()).getUsername());
+        }
 
         List<Task> tasks = extractPersonTasks((List<Task>) trepository.findAll(), request.getUserPrincipal());
         if (categoryFilter != null) {
             tasks = getTasksByCategory(tasks, categoryFilter);
+        }
+        if (status != null) {
+            tasks.removeIf(task -> !task.getStatus().equals(status));
         }
         tasks.sort(new SortByDueDateAndPriority());
         model.addAttribute("tasks", tasks);
