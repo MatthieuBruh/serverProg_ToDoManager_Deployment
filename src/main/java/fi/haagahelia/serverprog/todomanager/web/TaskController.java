@@ -116,6 +116,12 @@ public class TaskController {
         return "tasks/schedule";
     }
 
+    /**
+     * This method is used to filter all the categories of a list of tasks.
+     * @param tasks is the list of tasks.
+     * @param category is the category that is filtered.
+     * @return the list of tasks.
+     */
     private List<Task> getTasksByCategory(List<Task> tasks, Category category) {
         List<Task> results = new ArrayList<>();
         for (Task task : tasks) {
@@ -128,6 +134,8 @@ public class TaskController {
 
     /**
      * This method is used to display the tasks of a user.
+     * @param catName is the name of the category.
+     * @param status is the status of the task.
      * @param request HttpServletRequest to get user's information
      * @param model The model to add data for thymeleaf
      * @return the tasks page
